@@ -14,6 +14,7 @@ const Container = styled.View`
 `;
 
 const ChatList = styled.FlatList`
+  height: 0;
   flex-grow: 1;
 `;
 
@@ -25,20 +26,6 @@ const MessageContainer = styled.View<{ isAlternate: boolean }>`
   background-color: ${({ isAlternate }) =>
     isAlternate ? "#F5F5F5" : "#FFFFFF"};
   width: 100%;
-`;
-
-const SendMessageContainer1 = styled.View`
-  flex-shrink: 0;
-  position: absolute;
-  bottom: 24px;
-  left: 0;
-  right: 0;
-  padding: 12px;
-  width: 100%;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 1;
 `;
 
 const SendMessageContainer = styled.View`
@@ -55,7 +42,6 @@ const MessageInput = styled.TextInput`
   border: 1px solid #dadada;
   border-radius: 16px;
   padding: 0 12px;
-  width: 100%; // Change this line
 `;
 
 const SendButton = styled.TouchableOpacity`
@@ -64,7 +50,6 @@ const SendButton = styled.TouchableOpacity`
   margin-left: 12px;
   justify-content: center;
   align-items: center;
-  z-index: 2;
 `;
 
 const SendIcon = styled.Image`
@@ -146,39 +131,49 @@ export const ChatScreen: React.FC = () => {
 
   const getTime = (): string => {
     const now = new Date();
-    const hour = now.getHours().toString().padStart(2, "0");
-    const minute = now.getMinutes().toString().padStart(2, "0");
-    return `${hour}:${minute}`;
+    const hours = now.getHours().toString().padStart(2, "0");
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
+  const renderMessage = ({
+    item,
+    index,
+  }: {
+    item: ChatMessage;
+    index: number;
+  }) => {
+    const isAlternate = index % 2 !== 0;
+    return (
+      <MessageContainer isAlternate={isAlternate}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Circle color={item.color} />
+          <MessageText>{item.content}</MessageText>
+        </View>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Time>{item.time}</Time>
+        </View>
+      </MessageContainer>
+    );
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#F7F7F7" }}>
+    <Container>
       <ChatList
         data={messages}
+        renderItem={renderMessage}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}
-        renderItem={({ item, index }) => (
-          <MessageContainer isAlternate={index % 2 !== 0}>
-            <Circle color={item.color} />
-            <MessageContent>{item.content}</MessageContent>
-            <Time>{item.time}</Time>
-          </MessageContainer>
-        )}
       />
       <SendMessageContainer>
         <MessageInput
-          placeholder="Type a message..."
+          placeholder="Type a message"
           value={inputValue}
-          onChangeText={(text) => setInputValue(text)}
-          onSubmitEditing={handleSend}
+          onChangeText={setInputValue}
         />
         <SendButton onPress={handleSend}>
-          <SendIcon
-            source={require("./assets/send_icon.png")}
-            resizeMode="contain"
-          />
+          <SendIcon source={require("./assets/send_icon.png")} />
         </SendButton>
       </SendMessageContainer>
-    </View>
+    </Container>
   );
 };
