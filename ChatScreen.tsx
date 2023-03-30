@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Dimensions,
 } from "react-native";
 import styled from "styled-components/native";
 
@@ -90,6 +91,7 @@ type ChatMessage = {
 export const ChatScreen: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [listHeight, setListHeight] = useState(0);
 
   const handleSend = () => {
     if (inputValue.trim() === "") return;
@@ -163,12 +165,17 @@ export const ChatScreen: React.FC = () => {
         data={messages}
         renderItem={renderMessage}
         keyExtractor={(item) => item.id}
+        onContentSizeChange={(contentWidth, contentHeight) =>
+          setListHeight(contentHeight)
+        }
+        contentOffset={{ y: listHeight - Dimensions.get("window").height }}
       />
       <SendMessageContainer>
         <MessageInput
           placeholder="Type a message"
           value={inputValue}
           onChangeText={setInputValue}
+          onSubmitEditing={handleSend}
         />
         <SendButton onPress={handleSend}>
           <SendIcon source={require("./assets/send_icon.png")} />
