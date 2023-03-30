@@ -6,17 +6,22 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  Platform,
 } from "react-native";
 import styled from "styled-components/native";
 
 const Container = styled.View`
   flex: 1;
   background-color: #f7f7f7;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ChatList = styled.FlatList`
+  margin-top: ${Dimensions.get("window").height * 0.08}px;
   height: 0;
   flex-grow: 1;
+  width: ${Platform.OS === "web" ? "60%" : "95%"};
 `;
 
 const MessageContainer = styled.View<{ isAlternate: boolean }>`
@@ -32,9 +37,10 @@ const MessageContainer = styled.View<{ isAlternate: boolean }>`
 const SendMessageContainer = styled.View`
   flex-shrink: 0;
   padding: 12px;
-  width: 100%;
   flex-direction: row;
   align-items: center;
+  width: ${Platform.OS === "web" ? "60%" : "95%"};
+  margin-bottom: ${Dimensions.get("window").height * 0.01}px;
 `;
 
 const MessageInput = styled.TextInput`
