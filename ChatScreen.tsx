@@ -18,7 +18,9 @@ const Container = styled.View`
 `;
 
 const ChatList = styled.FlatList`
-  margin-top: ${Dimensions.get("window").height * 0.08}px;
+  margin-top: ${Platform.OS === "web"
+    ? Dimensions.get("window").height * 0.05
+    : Dimensions.get("window").height * 0.08}px;
   height: 0;
   flex-grow: 1;
   width: ${Platform.OS === "web" ? "60%" : "95%"};
@@ -104,7 +106,7 @@ export const ChatScreen: React.FC = () => {
 
     const newMessage: ChatMessage = {
       id: Math.random().toString(),
-      color: getRandomColor(),
+      color: "#006D9B",
       content: inputValue,
       time: getTime(),
     };
@@ -115,26 +117,12 @@ export const ChatScreen: React.FC = () => {
     setTimeout(() => {
       const receivedMessage: ChatMessage = {
         id: Math.random().toString(),
-        color: getRandomColor(),
+        color: "#9B7900",
         content: "Message Received",
         time: getTime(),
       };
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
     }, 1000);
-  };
-
-  const getRandomColor = (): string => {
-    const colors = [
-      "#F5A623",
-      "#F8E71C",
-      "#7ED321",
-      "#50E3C2",
-      "#4A90E2",
-      "#BD10E0",
-      "#9013FE",
-      "#000000",
-    ];
-    return colors[Math.floor(Math.random() * colors.length)];
   };
 
   const getTime = (): string => {
