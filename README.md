@@ -49,11 +49,11 @@ The project is structured as follows:
 ```bash
 App.tsx
 components/
-	ChatScreen.tsx
+    ChatScreen.tsx
 types/
-	ChatMessage.ts
+    ChatMessage.ts
 assets/
-	send_icon.png
+    send_icon.png
 ```
 
 - `App.tsx` is the main entry point for the app.
