@@ -161,7 +161,7 @@ export const ChatScreen: React.FC = () => {
           onSubmitEditing={handleSend}
         />
         <SendButton onPress={handleSend}>
-          <SendIcon source={require("./assets/send_icon.png")} />
+          <SendIcon source={require("../assets/send_icon.png")} />
         </SendButton>
       </SendMessageContainer>
     </Container>
