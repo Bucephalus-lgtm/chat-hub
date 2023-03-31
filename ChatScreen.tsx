@@ -7,6 +7,8 @@ import {
   FlatList,
   Dimensions,
   Platform,
+  ListRenderItem,
+  ListRenderItemInfo,
 } from "react-native";
 import styled from "styled-components/native";
 
@@ -132,7 +134,7 @@ export const ChatScreen: React.FC = () => {
     return `${hours}:${minutes}`;
   };
 
-  const renderMessage = ({
+  const renderMessage: ListRenderItem<ChatMessage> = ({
     item,
     index,
   }: {
@@ -158,11 +160,14 @@ export const ChatScreen: React.FC = () => {
       <ChatList
         data={messages}
         renderItem={renderMessage}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item: any) => item.id}
         onContentSizeChange={(contentWidth, contentHeight) =>
           setListHeight(contentHeight)
         }
-        contentOffset={{ y: listHeight - Dimensions.get("window").height }}
+        contentOffset={{
+          x: 0,
+          y: listHeight - Dimensions.get("window").height,
+        }}
       />
       <SendMessageContainer>
         <MessageInput
