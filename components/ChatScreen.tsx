@@ -1,16 +1,7 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  Dimensions,
-  Platform,
-  ListRenderItem,
-  ListRenderItemInfo,
-} from "react-native";
+import { View, Dimensions, Platform, ListRenderItem } from "react-native";
 import styled from "styled-components/native";
+import { ChatMessage } from "../types/ChatMessage";
 
 const Container = styled.View`
   flex: 1;
@@ -90,13 +81,6 @@ const MessageContent = styled.Text`
   margin-left: 12px;
   font-size: 16px;
 `;
-
-type ChatMessage = {
-  id: string;
-  color: string;
-  content: string;
-  time: string;
-};
 
 export const ChatScreen: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
